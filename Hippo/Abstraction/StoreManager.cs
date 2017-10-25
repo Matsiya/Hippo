@@ -7,21 +7,12 @@ namespace Hippo.Abstraction
 {
     public class StoreManager : IStoreManager
     {
-     
 
-
-
+                    
         public void AddStore<T>(IBaseStore<T> Store) where T : BaseTable
         {
             throw new NotImplementedException();
         }
-
-       
-        public void RemoveStore<T>(IBaseStore<T> Store) where T : BaseTable
-        {
-            throw new NotImplementedException();
-        }
-
 
         public void GetStore<T>() 
         {
@@ -33,7 +24,6 @@ namespace Hippo.Abstraction
         {
             throw new NotImplementedException();
         }
-
 
     }
 }
