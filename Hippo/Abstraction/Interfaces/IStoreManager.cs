@@ -10,14 +10,14 @@ namespace Hippo.Abstraction.Interfaces
      
         void AddStore<T>(IBaseStore<T> Store) where T : BaseTable;
 
-
         //void RemoveStore<T>(IBaseStore<T> Store) where T : BaseTable;
 
 
-        void GetStore<T>();
+        T GetStore<T>();
 
 
         Task<bool> SyncAll();
+
 
     }
 }

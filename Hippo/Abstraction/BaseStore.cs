@@ -9,9 +9,16 @@ namespace Hippo.Abstraction
     public class BaseStore<T> : IBaseStore<T>  where T : BaseTable
     {
 
+        public Func<Task<T>> GetMethod { get; set; }
+
+        public Action<T> PutMethod { get; set; }
+
 
         public Task<T> GetItemAsync(string id)
         {
+            
+            var s = GetMethod.Invoke();
+
             throw new NotImplementedException();
         }
 
@@ -22,6 +29,8 @@ namespace Hippo.Abstraction
 
         public Task<bool> InsertAsync(T item)
         {
+            PutMethod.Invoke(item);
+
             throw new NotImplementedException();
         }
 

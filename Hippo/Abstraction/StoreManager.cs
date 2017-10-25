@@ -5,16 +5,16 @@ using Hippo.Abstraction.Interfaces;
 
 namespace Hippo.Abstraction
 {
+
     public class StoreManager : IStoreManager
     {
-
-                    
+                        
         public void AddStore<T>(IBaseStore<T> Store) where T : BaseTable
         {
             throw new NotImplementedException();
         }
 
-        public void GetStore<T>() 
+        public T GetStore<T>() 
         {
             throw new NotImplementedException();
         }

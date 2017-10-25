@@ -8,7 +8,7 @@ namespace Hippo.Abstraction
     public class BaseTable : IBaseTable
     {
 
-        public Action Method { get; set; }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
