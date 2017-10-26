@@ -18,7 +18,7 @@ namespace HippoSample.Services
 
         Task<bool> RemoveAsync(string id, T item );
 
-        Task<bool> SyncAsync();
+       
 
     }
 }

@@ -2,11 +2,11 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:local="clr-namespace:HippoSample" x:Class="HippoSample.HippoSamplePage">
-    <StackLayout Orientation="Vertical">
-        <Label x:Name = "outputLabel" TranslationY="-80" Text="------" HorizontalOptions="Center" VerticalOptions="EndAndExpand" />
-        <Entry x:Name="entryField" Placeholder="Enter Text to store" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="50,0,50,10" HeightRequest="45" />
-        <Button Clicked="Handle_Clicked" Text="Store" VerticalOptions="StartAndExpand" HorizontalOptions="Center" /> 
+    xmlns:local="clr-namespace:HippoSample" x:Class="HippoSample.HippoSamplePage"  >
+    <StackLayout Orientation="Vertical" >
+        <Label x:Name = "outputLabel" TranslationY="-80" Text="------" HorizontalOptions="FillAndExpand" Margin="50,0,50,0" VerticalOptions="EndAndExpand" />
+        <Entry TranslationY="-50" x:Name="entryField" Placeholder="Enter Text to store" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="50,0,50,10" HeightRequest="45" />
+        <Button TranslationY="-50" Clicked="Handle_Clicked" Text="Store" VerticalOptions="StartAndExpand" HorizontalOptions="Center" /> 
     </StackLayout>
 	
 </ContentPage>

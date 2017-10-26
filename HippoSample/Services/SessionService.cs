@@ -40,11 +40,7 @@ namespace HippoSample.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> SyncAsync()
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public Task<bool> UpdateAsync(string id, Session item)
         {
             throw new NotImplementedException();

@@ -62,15 +62,20 @@ namespace Hippo.Abstraction
             }
         }
 
+
         public Task<bool> RemoveAsync(string id,T item, bool forceRefresh = false)
         {
             throw new NotImplementedException();
         }
 
+
+
         public Task<bool> UpdateAsync(string id,T item, bool forceRefresh = false)
         {
             throw new NotImplementedException();
         }
+
+
 
         public Task<bool> SyncAsync()
         {
