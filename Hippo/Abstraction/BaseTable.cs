@@ -7,10 +7,7 @@ namespace Hippo.Abstraction
 {
     public class BaseTable : IBaseTable
     {
-
-
-
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
 

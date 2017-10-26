@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Hippo.Implementation;
 using UIKit;
 
 namespace HippoSample.iOS
@@ -13,6 +14,8 @@ namespace HippoSample.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            HippoCurrent.Init();
 
             LoadApplication(new App());
 

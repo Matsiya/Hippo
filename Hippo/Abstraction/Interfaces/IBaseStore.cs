@@ -7,15 +7,15 @@ namespace Hippo.Abstraction.Interfaces
     
     public interface IBaseStore<T> where T : BaseTable
     {
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false);
       
-        Task<T> GetItemAsync(string id);
+        Task<Tuple<T,bool>> GetItemAsync(string id,bool forceRefresh = false);
 
-        Task<bool> InsertAsync(T item);
+        Task<bool> InsertAsync(string id,T item,bool forceRefresh = false);
 
-        Task<bool> UpdateAsync(T item);
+        Task<bool> UpdateAsync(string id,T item,bool forceRefresh = false);
 
-        Task<bool> RemoveAsync(T item);
+        Task<bool> RemoveAsync(string id,T item,bool forceRefresh = false);
 
         Task<bool> SyncAsync();
     }

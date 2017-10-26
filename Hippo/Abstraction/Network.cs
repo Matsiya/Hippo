@@ -12,8 +12,8 @@ namespace Hippo.Abstraction
             Plugin.Connectivity.CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         }
 
-        private bool isOnline;
-        public bool IsOnline { get { return isOnline; } private set
+        private  bool isOnline;
+        public  bool IsOnline { get { return isOnline; } private set
             {
                 isOnline = value;
 

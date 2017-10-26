@@ -1,4 +1,8 @@
-﻿using Xamarin.Forms;
+﻿using System.Collections.Generic;
+using Hippo.Abstraction;
+using Hippo.Implementation;
+using HippoSample.Models;
+using Xamarin.Forms;
 
 namespace HippoSample
 {
@@ -8,9 +12,13 @@ namespace HippoSample
         {
             InitializeComponent();
 
+            new StoreServiceInitializer();
+
             MainPage = new HippoSamplePage();
+
         }
 
+    
         protected override void OnStart()
         {
             // Handle when your app starts
