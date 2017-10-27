@@ -16,5 +16,7 @@ namespace Hippo.Implementation
 
         public static StoreManager StoreManager { get; } = new StoreManager();
 
+        internal static PendingQueue Queue { get; } = new PendingQueue();
+
     }
 }

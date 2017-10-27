@@ -41,6 +41,9 @@
     <Compile Include="Abstraction\StoreManager.cs" />
     <Compile Include="Abstraction\BaseStore.cs" />
     <Compile Include="Abstraction\Interfaces\IPendingQueue.cs" />
+    <Compile Include="Abstraction\PendingQueue.cs" />
+    <Compile Include="Abstraction\QueueItem.cs" />
+    <Compile Include="Abstraction\OperationType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abstraction\" />

@@ -9,13 +9,13 @@ namespace Hippo.Abstraction.Interfaces
     {
         Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false);
       
-        Task<Tuple<T,bool>> GetItemAsync(string id,bool forceRefresh = false);
+        Task<T> GetItemAsync(string id);
 
-        Task<bool> InsertAsync(string id,T item,bool forceRefresh = false);
+        Task<bool> InsertAsync(string id,T item );
 
-        Task<bool> UpdateAsync(string id,T item,bool forceRefresh = false);
+        Task<bool> UpdateAsync(string id,T item );
 
-        Task<bool> RemoveAsync(string id,T item,bool forceRefresh = false);
+        Task<bool> RemoveAsync(string id );
 
         Task<bool> SyncAsync();
     }

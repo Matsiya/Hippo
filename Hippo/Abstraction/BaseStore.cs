@@ -9,6 +9,7 @@ namespace Hippo.Abstraction
 {
     public class BaseStore<T> : IBaseStore<T>  where T : BaseTable
     {
+        
 
         public Func<string,Task<T>> GetItemMethod { get; set; }
 
@@ -22,59 +23,59 @@ namespace Hippo.Abstraction
 
 
 
-        public async Task<Tuple<T,bool>> GetItemAsync(string id, bool forceRefresh = false)
+        public async Task<T> GetItemAsync(string id)
         {
-            
-            if (forceRefresh)
-            {
-                var response = await GetItemMethod.Invoke(id);
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
 
-                await InsertAsync(id,response);
-
-                return new Tuple<T, bool>(response, true);
-            }
-            else
-            {
-                var response = await BaseStorage.GetItemAsync<T>(id);
-                return new Tuple<T, bool>(response, false);
-            }
-           
+            var response = await BaseStorage.GetItemAsync<T>(id);
+            return response;
         }
 
-        public Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<bool> InsertAsync(string id,T item, bool forceRefresh = false)
+        public async Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false)
         {
             if (forceRefresh)
             {
-                var response = await PutItemMethod.Invoke(item);
-                             
-                var local_response = await BaseStorage.InsertItemAsync<T>(id, response);
-                return local_response;
+                return null; // TODO
             }
             else
             {
-                var response = await BaseStorage.InsertItemAsync<T>(id, item);
-                return response;
+                var response = await BaseStorage.GetAllItemsAsync<T>();
+                return new Tuple<IEnumerable<T>, bool>(response, false );
             }
         }
 
 
-        public Task<bool> RemoveAsync(string id,T item, bool forceRefresh = false)
+        public async Task<bool> InsertAsync(string id, T item)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(id) || item == null)
+                return false;
+
+            var response = await BaseStorage.InsertItemAsync<T>(id, item);
+            return response;
+        }
+
+
+        public async Task<bool> RemoveAsync(string id )
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return false;
+
+            var response = await BaseStorage.RemoveItemAsync<T>(id);
+            return response;
         }
 
 
 
-        public Task<bool> UpdateAsync(string id,T item, bool forceRefresh = false)
+        public async Task<bool> UpdateAsync(string id,T item )
         {
-            throw new NotImplementedException();
-        }
+            if (string.IsNullOrWhiteSpace(id) || item == null)
+                return false;
 
+            var response = await BaseStorage.InsertItemAsync<T>(id,item);
+            return response;
+        }
 
 
         public Task<bool> SyncAsync()
