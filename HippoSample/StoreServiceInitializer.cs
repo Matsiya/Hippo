@@ -11,13 +11,13 @@ namespace HippoSample
         
         public StoreServiceInitializer()
         {
-            var store = new BaseStore<Session>();
+            var store = new Store<Session>();
             attachStoreSession(store);
 
             HippoCurrent.StoreManager.AddStore(store);
         }
 
-        void attachStoreSession(BaseStore<Session> store)
+        void attachStoreSession(Store<Session> store)
         {
             var service = new SessionService();
 

@@ -4,10 +4,11 @@ using Hippo.Abstraction.Interfaces;
 using Akavache;
 using System.Collections.Generic;
 using System.Reactive.Linq;
+using Hippo.Implementation;
 
 namespace Hippo.Abstraction
 {
-    public class BaseStore<T> : IBaseStore<T>  where T : BaseTable
+    public class Store<T> : IBaseStore<T>  where T : BaseTable
     {
         
 
@@ -37,7 +38,7 @@ namespace Hippo.Abstraction
         {
             if (forceRefresh)
             {
-                return null; // TODO
+                return null; // TODO 
             }
             else
             {

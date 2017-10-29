@@ -18,5 +18,7 @@ namespace Hippo.Implementation
 
         internal static PendingQueue Queue { get; } = new PendingQueue();
 
+        internal static Network Network { get; } = Queue;
+
     }
 }

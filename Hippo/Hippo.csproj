@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,6 +12,17 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <PackOnBuild>true</PackOnBuild>
+    <PackageVersion>0.0.1</PackageVersion>
+    <Authors>Vaibhav Khanna</Authors>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Owners>Vaibhav khanna</Owners>
+    <PackageProjectUrl>https://github.com/Vaibhav-Khanna/Hippo</PackageProjectUrl>
+    <PackageReleaseNotes>An offfline-online sync database library built for xamarin forms using akavache.</PackageReleaseNotes>
+    <Summary>An offfline-online sync database library</Summary>
+    <Title>Hippo</Title>
+    <Description>An offline-online sync library built for xamarin forms using the power of akavache. </Description>
+    <PackageId>16</PackageId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,7 +51,7 @@
     <Compile Include="Abstraction\Interfaces\IBaseTable.cs" />
     <Compile Include="Abstraction\BaseTable.cs" />
     <Compile Include="Abstraction\StoreManager.cs" />
-    <Compile Include="Abstraction\BaseStore.cs" />
+    <Compile Include="Abstraction\Store.cs" />
     <Compile Include="Abstraction\Interfaces\IPendingQueue.cs" />
     <Compile Include="Abstraction\PendingQueue.cs" />
     <Compile Include="Abstraction\QueueItem.cs" />
@@ -105,4 +117,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.4.0.18342\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.18342\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.1.276\build\NuGet.Build.Packaging.targets')" />
 </Project>

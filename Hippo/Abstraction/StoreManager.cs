@@ -13,7 +13,7 @@ namespace Hippo.Abstraction
 
         private List<Object> Stores = new List<Object>();
 
-        public void AddStore<T>(BaseStore<T> Store) where T : BaseTable
+        public void AddStore<T>(Store<T> Store) where T : BaseTable
         {           
             if (Stores.Contains(Store))
                 return;
@@ -21,13 +21,13 @@ namespace Hippo.Abstraction
             Stores.Add(Store);
         }
 
-        public BaseStore<T> GetStore<T>()  where T : BaseTable
+        public Store<T> GetStore<T>()  where T : BaseTable
         {
-            var _stores = Stores.Where( (arg) => arg.GetType() == typeof(BaseStore<T>));
+            var _stores = Stores.Where( (arg) => arg.GetType() == typeof(Store<T>));
 
             if(_stores.Any())
             {
-                return _stores.FirstOrDefault() as BaseStore<T>;
+                return _stores.FirstOrDefault() as Store<T>;
             }
             else
             {
@@ -39,7 +39,6 @@ namespace Hippo.Abstraction
         {
             throw new NotImplementedException();
         }
-
 
     }
 }

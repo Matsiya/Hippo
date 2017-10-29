@@ -10,13 +10,13 @@ namespace HippoSample
     public partial class HippoSamplePage : ContentPage
     {
         
-        BaseStore<Session> sessionStore = HippoCurrent.StoreManager.GetStore<Session>();
+        Store<Session> sessionStore = HippoCurrent.StoreManager.GetStore<Session>();
 
 
         public HippoSamplePage()
         {
             InitializeComponent();
-             
+
             Get();
         }
 

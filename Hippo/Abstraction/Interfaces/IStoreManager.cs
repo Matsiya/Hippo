@@ -8,10 +8,10 @@ namespace Hippo.Abstraction.Interfaces
     public interface IStoreManager
     {
      
-        void AddStore<T>(BaseStore<T> Store) where T : BaseTable;
+        void AddStore<T>(Store<T> Store) where T : BaseTable;
 
        
-        BaseStore<T> GetStore<T>() where T : BaseTable;
+        Store<T> GetStore<T>() where T : BaseTable;
 
 
         Task<bool> SyncAll();

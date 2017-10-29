@@ -24,7 +24,7 @@ namespace Hippo.Abstraction
 
                 return response;
             }
-            catch(KeyNotFoundException ex)
+            catch(KeyNotFoundException)
             {
                 return null;
             }
@@ -40,7 +40,6 @@ namespace Hippo.Abstraction
                                
                 var response = await Storage.InsertObject(id, item);
 
-
                 if (date_create == null)
                 {
                     HippoCurrent.Queue.Add(new QueueItem<T>(id, OperationType.Insert));
@@ -52,10 +51,11 @@ namespace Hippo.Abstraction
 
                 return true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }
+
         }
 
 
@@ -66,7 +66,7 @@ namespace Hippo.Abstraction
                 var response = await Storage.GetAllObjects<T>();
                 return response;
             }
-            catch(KeyNotFoundException ex)
+            catch(KeyNotFoundException)
             {
                 return null;
             }
@@ -83,7 +83,7 @@ namespace Hippo.Abstraction
 
                 return true;
             }
-            catch(KeyNotFoundException key)
+            catch(KeyNotFoundException)
             {
                 return false;
             }
