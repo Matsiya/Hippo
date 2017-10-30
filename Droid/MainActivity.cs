@@ -23,7 +23,7 @@ namespace HippoSample.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            HippoCurrent.Init();
+            HippoCurrent.Init("HippoSample");
 
             LoadApplication(new App());
         }

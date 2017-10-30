@@ -1,5 +1,7 @@
 ﻿using System;
 using Hippo.Abstraction.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Hippo.Abstraction
 {
@@ -10,31 +12,20 @@ namespace Hippo.Abstraction
         public Network()
         {
             Plugin.Connectivity.CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-        }
+        } 
 
-        private  bool isOnline;
-        public  bool IsOnline { get { return isOnline; } private set
-            {
-                isOnline = value;
 
-                if (isOnline)
-                    OnConnected();
-                else
-                    OnDisconnected();
+        public  bool IsOnline { get { return Plugin.Connectivity.CrossConnectivity.Current.IsConnected; } }
 
-            } }
-
-        public bool CanSync { get; private set; }
 
 
         void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
         {
             if (e.IsConnected)
-                IsOnline = true;
+                OnConnected();
             else
-                IsOnline = false;
+                OnDisconnected();
         }
-
 
         public virtual void OnConnected()
         {
@@ -45,12 +36,6 @@ namespace Hippo.Abstraction
         {
             
         }
-
-        public virtual void OnNetworkChange()
-        {
-            
-        }
-
 
     }
 }

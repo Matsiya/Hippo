@@ -12,7 +12,12 @@ namespace HippoSample
         {
             InitializeComponent();
 
-            new StoreServiceInitializer();
+
+            // Initialiaze all the stores you wish to store and use in the app
+            var sesstion = new StoreServiceInitializer();
+
+            // Choose which type of storage to use
+            HippoCurrent.StorageType = StorageType.LocalMachine;
 
             MainPage = new HippoSamplePage();
 

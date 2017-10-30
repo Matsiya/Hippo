@@ -8,11 +8,21 @@ namespace Hippo.Implementation
     public static class HippoCurrent
     {
        
-        public static void Init()
+        public static void Init(string ApplicationName)
         {
-            BlobCache.ApplicationName = "ExperimentHippoing";
+            BlobCache.ApplicationName = ApplicationName;
         }
 
+        private static StorageType storageType = StorageType.LocalMachine;
+        public static StorageType StorageType 
+        { 
+            get { return storageType; }
+            set 
+            {
+                storageType = value;
+                BaseStorage.ChangeStorage();
+            }
+        } 
 
         public static StoreManager StoreManager { get; } = new StoreManager();
 

@@ -15,7 +15,7 @@ namespace HippoSample.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            HippoCurrent.Init();
+            HippoCurrent.Init("HippoSample");
 
             LoadApplication(new App());
 

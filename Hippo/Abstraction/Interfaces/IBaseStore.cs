@@ -7,6 +7,9 @@ namespace Hippo.Abstraction.Interfaces
     
     public interface IBaseStore<T> where T : BaseTable
     {
+        
+        bool IsOnlineOnly { get; set; }
+
         Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false);
       
         Task<T> GetItemAsync(string id);

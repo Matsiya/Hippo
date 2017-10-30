@@ -23,12 +23,14 @@ namespace Hippo.Abstraction
         public Func<T, Task<T>> UpdateMethod { get; set; }
 
 
+        public bool IsOnlineOnly { get; set; }
+
 
         public async Task<T> GetItemAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
-
+            
             var response = await BaseStorage.GetItemAsync<T>(id);
             return response;
         }
@@ -43,6 +45,7 @@ namespace Hippo.Abstraction
             else
             {
                 var response = await BaseStorage.GetAllItemsAsync<T>();
+
                 return new Tuple<IEnumerable<T>, bool>(response, false );
             }
         }

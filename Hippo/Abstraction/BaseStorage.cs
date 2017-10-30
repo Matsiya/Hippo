@@ -13,8 +13,12 @@ namespace Hippo.Abstraction
     internal static class BaseStorage
     {           
 
-        private static IBlobCache Storage = BlobCache.LocalMachine;
+        internal static IBlobCache Storage = HippoCurrent.StorageType == StorageType.LocalMachine ? BlobCache.LocalMachine : HippoCurrent.StorageType == StorageType.UserAccount ? BlobCache.UserAccount : BlobCache.Secure;
 
+        internal static void ChangeStorage()
+        {
+            Storage = HippoCurrent.StorageType == StorageType.LocalMachine ? BlobCache.LocalMachine : HippoCurrent.StorageType == StorageType.UserAccount ? BlobCache.UserAccount : BlobCache.Secure;
+        }
 
         public static async Task<T> GetItemAsync<T>(string id) where T : BaseTable
         {
@@ -55,7 +59,6 @@ namespace Hippo.Abstraction
             {
                 return false;
             }
-
         }
 
 

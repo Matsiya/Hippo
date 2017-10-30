@@ -30,6 +30,7 @@ namespace Hippo.Abstraction
 
             var item = PendingOperations.First();
 
+            // TODO
             await Task.Delay(1000);
 
 
@@ -40,17 +41,18 @@ namespace Hippo.Abstraction
         public override void OnConnected()
         {
             base.OnConnected();
-
+            //TODO
         }
 
         public override void OnDisconnected()
         {
             base.OnDisconnected();
+            //TODO
         }
 
         void QueueChanged()
         {
-            
+            //TODO
         }
 
         public void ClearOutRedundantTask()
