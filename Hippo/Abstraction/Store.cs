@@ -59,7 +59,7 @@ namespace Hippo.Abstraction
 
                 if (response == null)
                 {
-
+                    
                 }
 
                 return new Tuple<IEnumerable<T>, bool>(response, false );

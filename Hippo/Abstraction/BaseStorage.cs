@@ -7,6 +7,7 @@ using Akavache;
 using System.Collections;
 using Newtonsoft.Json;
 using Hippo.Implementation;
+using Hippo.Abstraction.Interfaces;
 
 namespace Hippo.Abstraction
 {
@@ -96,12 +97,12 @@ namespace Hippo.Abstraction
         }
 
 
-        public static async Task<Queue<object>> GetQueue()
+        public static async Task<Queue<IQueueItem>> GetQueue()
         {
             try
             {
                 var response = await BlobCache.LocalMachine.GetObject<string>(QString);
-                return  JsonConvert.DeserializeObject<Queue<object>>(response);             
+                return  JsonConvert.DeserializeObject<Queue<IQueueItem>>(response);             
             }
             catch (KeyNotFoundException)
             {
@@ -109,11 +110,11 @@ namespace Hippo.Abstraction
             }
         }
 
-        public static async Task<bool> SaveQueue(Queue<object> items)
+        public static async Task<bool> SaveQueue(Queue<IQueueItem> items)
         {
             try
             {
-                var response = await BlobCache.LocalMachine.InsertObject(QString,items);
+                var response = await BlobCache.LocalMachine.InsertObject(QString,JsonConvert.SerializeObject(items));
                 return true;
             }
             catch (KeyNotFoundException)

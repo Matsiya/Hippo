@@ -57,6 +57,7 @@
     <Compile Include="Abstraction\QueueItem.cs" />
     <Compile Include="Abstraction\OperationType.cs" />
     <Compile Include="Abstraction\StorageType.cs" />
+    <Compile Include="Abstraction\Interfaces\IQueueItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abstraction\" />

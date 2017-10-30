@@ -14,7 +14,7 @@ namespace Hippo.Abstraction
     internal class PendingQueue : Network, IPendingQueue
     {
         
-        private Queue<object> PendingOperations = new Queue<object>();
+        private Queue<IQueueItem> PendingOperations = new Queue<IQueueItem>();
 
         internal PendingQueue()
         {
@@ -23,17 +23,18 @@ namespace Hippo.Abstraction
 
         public void Add<T>(QueueItem<T> item) where T : BaseTable
         {
-            PendingOperations.Enqueue(item);
+            var cast_item = (IQueueItem)item;
+            PendingOperations.Enqueue(cast_item);
             QueueChanged();
             SaveQueueToStorage();
         }
 
-
+       
         async Task DequeOperations()
         {
             ClearOutRedundantTask();
 
-            var item = PendingOperations.First();
+            var item = PendingOperations.Peek();
 
             // TODO
             await Task.Delay(1000);
@@ -59,11 +60,18 @@ namespace Hippo.Abstraction
         void QueueChanged()
         {
             //TODO
+            ClearOutRedundantTask();
         }
 
         public void ClearOutRedundantTask()
         {
-            
+            if (PendingOperations.Count <= 1)
+                return;
+
+            var item = PendingOperations.Peek();
+
+            var similarItems = PendingOperations.Where( (arg) => arg.Type == item.Type);
+
         }
 
         private async void LoadQueueFromStorage()
