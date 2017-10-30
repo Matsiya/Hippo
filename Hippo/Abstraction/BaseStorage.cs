@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using Akavache;
 using System.Collections;
+using Newtonsoft.Json;
 using Hippo.Implementation;
 
 namespace Hippo.Abstraction
 {
     
     internal static class BaseStorage
-    {           
+    {
+
+        private const string QString = "PendingOperations";
 
         internal static IBlobCache Storage = HippoCurrent.StorageType == StorageType.LocalMachine ? BlobCache.LocalMachine : HippoCurrent.StorageType == StorageType.UserAccount ? BlobCache.UserAccount : BlobCache.Secure;
 
@@ -92,6 +95,32 @@ namespace Hippo.Abstraction
             }
         }
 
+
+        public static async Task<Queue<object>> GetQueue()
+        {
+            try
+            {
+                var response = await BlobCache.LocalMachine.GetObject<string>(QString);
+                return  JsonConvert.DeserializeObject<Queue<object>>(response);             
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<bool> SaveQueue(Queue<object> items)
+        {
+            try
+            {
+                var response = await BlobCache.LocalMachine.InsertObject(QString,items);
+                return true;
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+        }
 
     }
 }

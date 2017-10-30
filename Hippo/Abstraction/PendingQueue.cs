@@ -16,11 +16,16 @@ namespace Hippo.Abstraction
         
         private Queue<object> PendingOperations = new Queue<object>();
 
+        internal PendingQueue()
+        {
+            LoadQueueFromStorage();
+        }
 
         public void Add<T>(QueueItem<T> item) where T : BaseTable
         {
             PendingOperations.Enqueue(item);
             QueueChanged();
+            SaveQueueToStorage();
         }
 
 
@@ -35,6 +40,7 @@ namespace Hippo.Abstraction
 
 
             QueueChanged();
+            SaveQueueToStorage();
         }
 
 
@@ -60,6 +66,20 @@ namespace Hippo.Abstraction
             
         }
 
+        private async void LoadQueueFromStorage()
+        {
+            var sq = await BaseStorage.GetQueue();
+
+            if(sq!=null)
+            {
+                PendingOperations = sq;
+            }
+        }
+
+        private async void SaveQueueToStorage()
+        {
+            await BaseStorage.SaveQueue(PendingOperations);
+        }
 
     }
 }
