@@ -18,6 +18,8 @@ namespace Hippo.Abstraction
 
         public Func<Task<IEnumerable<T>>> GetAllItemsMethod { get; set; }
 
+        public Func<Dictionary<string,object>,Task<IEnumerable<T>>> GetAllItemsMethodWithParameters { get; set; }
+
         public Func<T, Task<bool>> RemoveMethod { get; set; }
 
         public Func<T, Task<T>> UpdateMethod { get; set; }
@@ -35,9 +37,17 @@ namespace Hippo.Abstraction
             
             var response = await BaseStorage.GetItemAsync<T>(id);
 
-            if(response==null)
+            if(response==null && !HippoCurrent.Queue.IsConflictWithQueue<T>(id))
             {
-                
+                if (GetItemMethod != null && HippoCurrent.Network.IsOnline)
+                {
+                    var server_response = await GetItemMethod.Invoke(id);
+
+                    if(server_response != null && !HippoCurrent.Queue.IsConflictWithQueue<T>(id))
+                    await BaseStorage.InsertItemAsync(id,server_response);
+
+                    return server_response;
+                }
             }
 
             return response;
@@ -57,15 +67,28 @@ namespace Hippo.Abstraction
             {
                 var response = await BaseStorage.GetAllItemsAsync<T>();
 
-                if (response == null)
+                if (response == null && !HippoCurrent.Queue.IsConflictWithQueue<T>())
                 {
-                    
+                    if (GetAllItemsMethod != null && HippoCurrent.Network.IsOnline)
+                    {
+                        var server_response = await GetAllItemsMethod.Invoke();
+
+                        if (server_response != null && !HippoCurrent.Queue.IsConflictWithQueue<T>())
+                            await BaseStorage.InsertAllItemAsync(id, server_response);
+
+                        return new Tuple<IEnumerable<T>, bool>(server_response,true);
+                    }
                 }
 
                 return new Tuple<IEnumerable<T>, bool>(response, false );
             }
         }
 
+
+        public Task<Tuple<IEnumerable<T>, bool>> GetItemsAsync(int Offset, int Count, string SortField, bool AscendingOrder, bool forceRefresh = false)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 
@@ -75,8 +98,13 @@ namespace Hippo.Abstraction
             if (string.IsNullOrWhiteSpace(id) || item == null)
                 return false;
 
-            var response = await BaseStorage.InsertItemAsync<T>(id, item);
-            return response;
+            if (!HippoCurrent.Queue.IsConflictWithQueue<T>(id))
+            {
+                var response = await BaseStorage.InsertItemAsync<T>(id, item);
+                return response;
+            }
+
+            return false;
         }
 
 
@@ -113,6 +141,6 @@ namespace Hippo.Abstraction
         {
             throw new NotImplementedException();
         }
-
+       
     }
 }

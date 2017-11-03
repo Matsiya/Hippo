@@ -19,6 +19,11 @@ namespace Hippo.Abstraction
         internal PendingQueue()
         {
             LoadQueueFromStorage();
+
+            if (IsOnline)
+                OnConnected();
+            else
+                OnDisconnected();
         }
 
         public void Add<T>(QueueItem<T> item) where T : BaseTable
@@ -29,7 +34,17 @@ namespace Hippo.Abstraction
             SaveQueueToStorage();
         }
 
-       
+
+        public bool IsConflictWithQueue<T>(string id) where T : BaseTable
+        {
+            return PendingOperations.Where((arg) => arg.Type == typeof(T) && arg.Id == id).Any();
+        }
+
+        public bool IsConflictWithQueue<T>() where T : BaseTable
+        {
+            return PendingOperations.Where((arg) => arg.Type == typeof(T) ).Any();
+        }
+
         async Task DequeOperations()
         {
             ClearOutRedundantTask();
@@ -63,7 +78,7 @@ namespace Hippo.Abstraction
             ClearOutRedundantTask();
         }
 
-        public void ClearOutRedundantTask()
+        private void ClearOutRedundantTask()
         {
             if (PendingOperations.Count <= 1)
                 return;

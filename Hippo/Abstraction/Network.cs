@@ -18,7 +18,6 @@ namespace Hippo.Abstraction
         public  bool IsOnline { get { return Plugin.Connectivity.CrossConnectivity.Current.IsConnected; } }
 
 
-
         void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
         {
             if (e.IsConnected)

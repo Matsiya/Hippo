@@ -66,6 +66,22 @@ namespace Hippo.Abstraction
         }
 
 
+        public static async Task<bool> InsertAllItemAsync<T>(Dictionary<string,T> keyvaluePairs) where T : BaseTable
+        {
+            try
+            {
+
+                var response = await Storage.InsertObjects<T>(keyvaluePairs);
+                              
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
         public static async Task<IEnumerable<T>> GetAllItemsAsync<T>() where T : BaseTable
         {
             try
