@@ -5,6 +5,6 @@ namespace Hippo.Abstraction.Interfaces
 {
     public interface IBaseTable : INotifyPropertyChanged
     {
-        
+         string id { get; set; }
     }
 }

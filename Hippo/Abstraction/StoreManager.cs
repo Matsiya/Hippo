@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Hippo.Abstraction.Interfaces;
 using System.Linq;
+using System.Reflection;
 
 namespace Hippo.Abstraction
 {
@@ -35,6 +36,20 @@ namespace Hippo.Abstraction
             }
         }
 
+        public object GetStore(Type type)
+        {            
+            var _stores = Stores.Where((arg) => arg.GetType().GenericTypeArguments[0] == type);
+
+            if (_stores.Any())
+            {
+                return _stores.FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+      
         public Task<bool> SyncAll()
         {
             throw new NotImplementedException();

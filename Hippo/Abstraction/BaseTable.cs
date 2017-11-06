@@ -2,14 +2,16 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Hippo.Abstraction.Interfaces;
+using Newtonsoft.Json;
 
 namespace Hippo.Abstraction
 {
     public class BaseTable : IBaseTable
     {
-        
-        public event PropertyChangedEventHandler PropertyChanged;
+        [JsonIgnore]
+        public string id { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChanged([CallerMemberName] string propertyname = null)
         {

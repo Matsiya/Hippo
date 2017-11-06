@@ -7,6 +7,7 @@ using System.Linq;
 
 using Hippo.Implementation;
 using Hippo.Abstraction.Interfaces;
+using System.Reflection;
 
 namespace Hippo.Abstraction
 {
@@ -14,7 +15,9 @@ namespace Hippo.Abstraction
     internal class PendingQueue : Network, IPendingQueue
     {
         
-        private Queue<IQueueItem> PendingOperations = new Queue<IQueueItem>();
+        private List<IQueueItem> PendingOperations = new List<IQueueItem>();
+
+        private bool IsRunning = false;
 
         internal PendingQueue()
         {
@@ -29,9 +32,9 @@ namespace Hippo.Abstraction
         public void Add<T>(QueueItem<T> item) where T : BaseTable
         {
             var cast_item = (IQueueItem)item;
-            PendingOperations.Enqueue(cast_item);
-            QueueChanged();
+            PendingOperations.Add(cast_item);
             SaveQueueToStorage();
+            QueueChanged();
         }
 
 
@@ -40,42 +43,76 @@ namespace Hippo.Abstraction
             return PendingOperations.Where((arg) => arg.Type == typeof(T) && arg.Id == id).Any();
         }
 
+
         public bool IsConflictWithQueue<T>() where T : BaseTable
         {
-            return PendingOperations.Where((arg) => arg.Type == typeof(T) ).Any();
+           return PendingOperations.Where((arg) => arg.Type == typeof(T) ).Any();
         }
+
 
         async Task DequeOperations()
         {
-            ClearOutRedundantTask();
-
-            var item = PendingOperations.Peek();
+            if (IsRunning)
+                return;
 
             // TODO
-            await Task.Delay(1000);
+            IsRunning = true;
 
+            DequeOperations: if (IsOnline)
+            {
+                
+                if (PendingOperations.Any())
+                {                   
+                    ClearOutRedundantTask();
 
-            QueueChanged();
-            SaveQueueToStorage();
+                    var item = PendingOperations.First();
+
+                    var store = HippoCurrent.StoreManager.GetStore(item.Type);
+
+                    var st = await BaseStorage.GetItemAsync(item.Id);
+
+                    if (item.OperationType == OperationType.Insert)
+                    {
+                       
+                    }
+                    else if (item.OperationType == OperationType.Remove)
+                    {
+
+                    }
+                    else if (item.OperationType == OperationType.Update)
+                    {
+
+                    }
+                                       
+
+                    SaveQueueToStorage();
+
+                    goto DequeOperations;
+                }
+            }
+
+            IsRunning = false;
         }
 
 
         public override void OnConnected()
         {
             base.OnConnected();
-            //TODO
+
+            DequeOperations();
         }
 
         public override void OnDisconnected()
         {
             base.OnDisconnected();
-            //TODO
+
+            IsRunning = false;
         }
+
 
         void QueueChanged()
         {
-            //TODO
-            ClearOutRedundantTask();
+            DequeOperations();
         }
 
         private void ClearOutRedundantTask()
@@ -83,10 +120,19 @@ namespace Hippo.Abstraction
             if (PendingOperations.Count <= 1)
                 return;
 
-            var item = PendingOperations.Peek();
+            //TODO
 
-            var similarItems = PendingOperations.Where( (arg) => arg.Type == item.Type);
+            var item = PendingOperations.First();
 
+            var similarItems = PendingOperations.Where( (arg) => arg.Type == item.Type).ToList();
+
+            if (similarItems.Any())
+            {
+                for (int i = 0; i < similarItems.Count-1; i++)
+                {
+                    PendingOperations.Remove(similarItems[i]);
+                }
+            }
         }
 
         private async void LoadQueueFromStorage()

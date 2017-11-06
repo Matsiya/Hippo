@@ -58,6 +58,7 @@
     <Compile Include="Abstraction\OperationType.cs" />
     <Compile Include="Abstraction\StorageType.cs" />
     <Compile Include="Abstraction\Interfaces\IQueueItem.cs" />
+    <Compile Include="Abstraction\RemoteFunctionException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abstraction\" />

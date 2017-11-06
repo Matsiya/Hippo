@@ -43,6 +43,7 @@
     <Compile Include="StoreServiceInitializer.cs" />
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\IRestService.cs" />
+    <Compile Include="Services\TennisService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

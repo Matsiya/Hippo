@@ -24,6 +24,7 @@ namespace Hippo.Abstraction
 
         public Func<T, Task<T>> UpdateMethod { get; set; }
 
+
         public bool IsOnlineOnly { get; set; }
 
 
@@ -34,7 +35,11 @@ namespace Hippo.Abstraction
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
-            
+
+            if (GetItemMethod == null)
+                throw new RemoteFunctionException();
+
+
             var response = await BaseStorage.GetItemAsync<T>(id);
 
             if(response==null && !HippoCurrent.Queue.IsConflictWithQueue<T>(id))
@@ -59,12 +64,16 @@ namespace Hippo.Abstraction
         /// </summary>
         public async Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false)
         {
+            if (GetItemMethod == null)
+                throw new RemoteFunctionException();
+
             if (forceRefresh)
             {
                 return null; // TODO 
             }
             else
             {
+                
                 var response = await BaseStorage.GetAllItemsAsync<T>();
 
                 if (response == null && !HippoCurrent.Queue.IsConflictWithQueue<T>())
@@ -74,7 +83,7 @@ namespace Hippo.Abstraction
                         var server_response = await GetAllItemsMethod.Invoke();
 
                         if (server_response != null && !HippoCurrent.Queue.IsConflictWithQueue<T>())
-                            await BaseStorage.InsertAllItemAsync(id, server_response);
+                            await BaseStorage.InsertAllItemAsync(server_response);
 
                         return new Tuple<IEnumerable<T>, bool>(server_response,true);
                     }
@@ -85,10 +94,14 @@ namespace Hippo.Abstraction
         }
 
 
-        public Task<Tuple<IEnumerable<T>, bool>> GetItemsAsync(int Offset, int Count, string SortField, bool AscendingOrder, bool forceRefresh = false)
+        public Task<Tuple<IEnumerable<T>, bool>> GetItemsAsync(Dictionary<string,object> Parameters, bool forceRefresh = false)
         {
+            if (GetAllItemsMethodWithParameters == null)
+                throw new RemoteFunctionException();
+            
             throw new NotImplementedException();
         }
+
 
         /// <summary>
         /// 
@@ -98,13 +111,12 @@ namespace Hippo.Abstraction
             if (string.IsNullOrWhiteSpace(id) || item == null)
                 return false;
 
-            if (!HippoCurrent.Queue.IsConflictWithQueue<T>(id))
-            {
-                var response = await BaseStorage.InsertItemAsync<T>(id, item);
-                return response;
-            }
+            if (PutItemMethod == null)
+                throw new RemoteFunctionException();
 
-            return false;
+            var response = await BaseStorage.InsertItemAsync<T>(id, item);
+           
+            return response;
         }
 
 
@@ -115,6 +127,9 @@ namespace Hippo.Abstraction
         {
             if (string.IsNullOrWhiteSpace(id))
                 return false;
+
+            if (RemoveMethod == null)
+                throw new RemoteFunctionException();
 
             var response = await BaseStorage.RemoveItemAsync<T>(id);
             return response;
@@ -129,6 +144,9 @@ namespace Hippo.Abstraction
             if (string.IsNullOrWhiteSpace(id) || item == null)
                 return false;
 
+            if (UpdateMethod == null)
+                throw new RemoteFunctionException();
+            
             var response = await BaseStorage.InsertItemAsync<T>(id,item);
             return response;
         }

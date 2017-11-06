@@ -38,6 +38,20 @@ namespace Hippo.Abstraction
             }
         }
 
+        public static async Task<object> GetItemAsync(string id)
+        {
+            try
+            {
+                var response = await Storage.GetObject<object>(id);
+
+                return response;
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+        }
+
 
         public static async Task<bool> InsertItemAsync<T>(string id, T item) where T : BaseTable
         {
@@ -66,12 +80,21 @@ namespace Hippo.Abstraction
         }
 
 
-        public static async Task<bool> InsertAllItemAsync<T>(Dictionary<string,T> keyvaluePairs) where T : BaseTable
+        public static async Task<bool> InsertAllItemAsync<T>(IEnumerable<T> items) where T : BaseTable
         {
             try
             {
+                if (items == null || items.Count<T>() == 0)
+                    return false;
 
-                var response = await Storage.InsertObjects<T>(keyvaluePairs);
+                var keyvalueStore = new Dictionary<string, T>();
+
+                foreach (var item in items)
+                {
+                    keyvalueStore.Add(item.id,item);
+                }
+
+                var response = await Storage.InsertObjects<T>(keyvalueStore);
                               
                 return true;
             }
@@ -113,12 +136,12 @@ namespace Hippo.Abstraction
         }
 
 
-        public static async Task<Queue<IQueueItem>> GetQueue()
+        public static async Task<List<IQueueItem>> GetQueue()
         {
             try
             {
                 var response = await BlobCache.LocalMachine.GetObject<string>(QString);
-                return  JsonConvert.DeserializeObject<Queue<IQueueItem>>(response);             
+                return  JsonConvert.DeserializeObject<List<IQueueItem>>(response);             
             }
             catch (KeyNotFoundException)
             {
@@ -126,7 +149,7 @@ namespace Hippo.Abstraction
             }
         }
 
-        public static async Task<bool> SaveQueue(Queue<IQueueItem> items)
+        public static async Task<bool> SaveQueue(List<IQueueItem> items)
         {
             try
             {

@@ -12,7 +12,7 @@ namespace Hippo.Abstraction.Interfaces
 
         Task<Tuple<IEnumerable<T>,bool>> GetItemsAsync(bool forceRefresh = false);
       
-        Task<Tuple<IEnumerable<T>, bool>> GetItemsAsync(int Offset,int Count,string SortField, bool AscendingOrder,bool forceRefresh = false);
+        Task<Tuple<IEnumerable<T>, bool>> GetItemsAsync(Dictionary<string,object> Parameters, bool forceRefresh = false);
 
         Task<T> GetItemAsync(string id);
 

@@ -11,7 +11,7 @@ namespace HippoSample
     {
         
         Store<Session> sessionStore = HippoCurrent.StoreManager.GetStore<Session>();
-
+       
 
         public HippoSamplePage()
         {
@@ -19,10 +19,10 @@ namespace HippoSample
 
             Get();
         }
-
     
         async void Get()
         {
+           
             var item = await sessionStore.GetItemAsync("1");
 
             if (item != null)
@@ -36,7 +36,7 @@ namespace HippoSample
         {
             if(!string.IsNullOrWhiteSpace(entryField.Text))
             {
-                var response = await sessionStore.InsertAsync("1",new Session(){ Id = 1, DateCreated = DateTime.Now, Name = entryField.Text });
+                var response = await sessionStore.InsertAsync("1",new Session(){ id = "1", DateCreated = DateTime.Now, Name = entryField.Text });
 
                 if(response){
 

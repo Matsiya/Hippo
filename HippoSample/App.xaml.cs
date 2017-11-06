@@ -19,7 +19,7 @@ namespace HippoSample
             // Choose which type of storage to use
             HippoCurrent.StorageType = StorageType.LocalMachine;
 
-            MainPage = new HippoSamplePage();
+            MainPage = new NavigationPage(new HippoSamplePage(){ Title = "Hippo" }){ BarTextColor = Color.White, BarBackgroundColor = Color.RoyalBlue };
 
         }
 

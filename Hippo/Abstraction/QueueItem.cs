@@ -1,6 +1,7 @@
 ﻿using System;
 using Hippo.Abstraction.Interfaces;
 
+
 namespace Hippo.Abstraction
 {
     public class QueueItem<T> : IQueueItem where T : BaseTable
